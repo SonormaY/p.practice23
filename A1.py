@@ -1,11 +1,21 @@
 import math
 
 def count(n,k):
+    # checkig for correct data
     if n < k:
         return 0
     
-    # C(n, k) = (n + k - 1)! / k! * (n - 1)!
-    return math.factorial(n + k - 1) // math.factorial(k) * math.factorial(n - 1)
+    # creating array and sarting value
+    dp = [0] * (n + 1)
+    dp[0] = 1 
+
+    # outer cycle for counting path to every step
+    for i in range(1, n + 1):
+        # inner cycle for counting paths to specific step
+        for j in range(1, min(i, k) + 1):
+            dp[i] += dp[i - j]
+
+    return dp[n]
 
 while True:
     #input of data
