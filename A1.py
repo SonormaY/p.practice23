@@ -26,6 +26,9 @@ while True:
     if k.isdigit() and n.isdigit():
         k = int(k)
         n = int(n)
+        if k <= 0 and n <= 0:
+            print("Enter positive integer!!!")
+            continue
     else:
         print("You must enter digits to continue!!!")
         continue
