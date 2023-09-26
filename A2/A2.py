@@ -1,2 +1,2 @@
-import linked_list
+from linked_list import LinkedList
 
