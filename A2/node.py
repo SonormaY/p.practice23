@@ -6,6 +6,7 @@ class Node:
     def set_next(self, node):
         if type(node) == type(Node(None)):
             self.next = node
+
     def __str__(self):
         return str(self.val)
 
