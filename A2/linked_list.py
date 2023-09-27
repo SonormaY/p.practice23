@@ -1,4 +1,4 @@
-from node import Node
+from A2.node import Node
 import random
 
 class LinkedList:
@@ -125,7 +125,7 @@ class LinkedList:
             if data == "stop": 
                 break
 
-            self.insertAtEnd(data)
+            self.insertAtEnd(int(data))
     def randomFill(self, amount, a, b):
         if amount < 1: raise Exception("Enter valid amount")
         if a > b: raise Exception("Wrong bounds of random generation")
