@@ -47,14 +47,14 @@ class LinkedList:
         current_node = self.head
         position = 0
         if position == index:
-            current_node.data = data
+            current_node.val = data
         else:
             while(current_node and position != index):
                 position += 1
                 current_node = current_node.next
  
             if current_node:
-                current_node.data = data
+                current_node.val = data
             else:
                 raise Exception("Index is not present")
     
@@ -93,7 +93,7 @@ class LinkedList:
     def deleteByData(self, data):
         current_node = self.head
  
-        while(current_node and current_node.next.data != data):
+        while(current_node and current_node.next.val != data):
             current_node = current_node.next
  
         if current_node is None:
@@ -116,38 +116,6 @@ class LinkedList:
         while current_node:
             print(current_node)
             current_node = current_node.next   
-    def swap(self, index1, index2):
-        if index1 == index2:
-            return
-        
-        prev1, curr1 = None, self.head
-        prev2, curr2 = None, self.head
-        pos1, pos2 = 0, 0
-
-        while curr1 and pos1 != index1:
-            prev1 = curr1
-            curr1 = curr1.next
-            pos1 += 1
-
-        while curr2 and pos2 != index2:
-            prev2 = curr2
-            curr2 = curr2.next
-            pos2 += 1
-        
-        if pos1 != index1 or pos2 != index2 or (curr1 is None and curr2 is None):
-            raise Exception("Invalid indices")
-        
-        if prev1:
-            prev1.next = curr2
-        else:
-            self.head = curr2
-
-        if prev2:
-            prev2.next = curr1
-        else:
-            self.head = curr1
-
-        curr1.next, curr2.next = curr2.next, curr1.next
 
 
     def input(self):
@@ -163,4 +131,18 @@ class LinkedList:
         if a > b: raise Exception("Wrong bounds of random generation")
         for i in range (0, amount):
             self.insertAtEnd(random.randint(a, b))
-
+    def reverseNegativeNumbers(self):
+        current_node = self.head
+        temp = []
+        temp_indicies = []
+        temp_index = 0
+        while current_node:
+            if current_node.val < 0:
+                temp.append(current_node.val)
+                temp_indicies.append(temp_index)
+            current_node = current_node.next
+            temp_index += 1
+        
+        temp.reverse()
+        for i in range(0, len(temp)):
+           self.writeAtIndex(temp[i],temp_indicies[i])
