@@ -26,7 +26,7 @@ while True:
     if k.isdigit() and n.isdigit():
         k = int(k)
         n = int(n)
-        if k <= 0 and n <= 0:
+        if k < 1 and n < 1:
             print("Enter positive integer!!!")
             continue
     else:
