@@ -17,6 +17,9 @@ def count(n,k):
 
     return dp[n]
 
+def check_positive(num):
+    return num >= 1
+
 while True:
     #input of data
     k = input("Enter k: ")
@@ -26,7 +29,7 @@ while True:
     if k.isdigit() and n.isdigit():
         k = int(k)
         n = int(n)
-        if k < 1 and n < 1:
+        if not check_positive(k) and not check_positive(n):
             print("Enter positive integer!!!")
             continue
     else:
