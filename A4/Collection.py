@@ -34,7 +34,9 @@ class Collection:
         temp = string.split(" ")
         if not Validator.is_integer(temp[0]):
             print("ID must be a number")
-        else: temp_id = int(temp[0])
+            return
+        else: 
+            temp_id = temp[0]
         for element in self.collection:
             if element.ID == temp_id:
                 print(f"ID{element.ID} already exists")
