@@ -13,7 +13,7 @@ class Validator:
         def wrapper(self, value):
             if not Validator.is_integer(value) or int(value) < 0:
                 print("ID is not integer or not positive")
-                return 
+                return
             else:
                 return func(self, value)
         return wrapper 
@@ -73,6 +73,7 @@ class Validator:
             if Validator.is_integer(user_input):
                 return int(user_input)
             else: print("Enter a number")
-    def validate_range(number, min_value, max_value):
-        if number < min_value or number > max_value:
-            raise ValueError("Число повинно бути в діапазоні від {} до {}".format(min_value, max_value))
+            
+    def validate_range(min_value, max_value):
+        if min_value > max_value:
+            raise ValueError("Wrong bounds")
