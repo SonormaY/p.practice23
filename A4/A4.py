@@ -1,5 +1,6 @@
 from validation import Validator
 from A4.Collection import Collection
+from A4.Strategy import InsertElement, StrategyReadFromFile, StrategyReadFromConsole
 from os import system, name
 
 def clear():
@@ -28,6 +29,7 @@ def do_some_magic4():
         print("8. Edit Request by ID")
         print("9. Write log file name")
         print("10. Print log")
+        print("11. Strategy menu")
         print("0. Exit")
         print(f"Log file: {log}")
         while True:
@@ -94,5 +96,54 @@ def do_some_magic4():
             except FileNotFoundError as e:
                 print(e)
             input("Press Enter to continue")
+        elif user_input == "11":
+            while True:
+                clear()
+                print("Strategy menu: ")
+                print("1. Add element from file by position")
+                print("2. Add element from console")
+                print("3. Delete by position")
+                print("4. Delete in range")
+                print("0. Exit")
+                strategy_input = input("Enter number to execute: ")
+                strategy = InsertElement()
+                if strategy_input == "1":
+                    strategy.setStrategy(StrategyReadFromFile())
+                    input_file = input("Enter filename: ")
+                    while True:
+                        try:
+                            strategy.executeStrategy(collection, log, input_file, Validator.input_integer("Enter position: "))
+                        except FileNotFoundError:
+                            print("File does not exist")
+                            input("Press enter to continue")
+                            break
+                        if input("Continue to enter? (y/n): ") != "y": break
+                elif strategy_input == "2":
+                    strategy.setStrategy(StrategyReadFromConsole())
+                    while True:
+                        strategy.executeStrategy(collection, log)
+                        if input("Continue to enter? (y/n): ") is not "y": break
+                elif strategy_input == "3":
+                    try:
+                        collection.delete_by_index(Validator.input_integer("Enter index to delete: "), log)
+                    except IndexError:
+                        input("Wrong index, press enter to continue")
+                    else:
+                        input("Successfully deleted, press enter to continue")
+                elif strategy_input == "4":
+                    try:
+                        collection.delete_in_bounds(
+                            Validator.input_integer("Enter start pos: "),
+                            Validator.input_integer("Enter end pos: "),
+                            log
+                            )
+                    except ValueError:
+                        print("Invalid bounds, press enter to continue")
+                    else:
+                        input("Successfully deleted, press enter to continue")
+                elif strategy_input == "0": break
+                else:
+                    print("Enter valid number of program")
+
         elif user_input == "0": break
         else: print("Enter valid number of program")

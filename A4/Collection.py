@@ -60,11 +60,20 @@ class Collection:
             file = open(out_file, 'a')
             file.write(f"[{datetime.datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}] Added element with ID{temp_request.ID}\n")
 
-    def read_from_file(self, file_name, out_file = "out"):
+    def read_from_file(self, file_name,  out_file = "out", position = None):
+        if out_file is None:
+            out_file = "out"
         file = open(file_name, 'r')
-        temp = file.read().split("\n")
-        for n in temp:
-            self.add_element(n, out_file)
+        if position is None:
+            temp = file.read().split("\n")
+            for n in temp:
+                self.add_element(n, out_file)
+        else:
+            content = file.readlines()
+            try:
+                self.add_element(content[position-1].strip(), out_file)
+            except IndexError:
+                print("Wrong position")
 
     def find_elements(self, value):
         arr = []
@@ -94,7 +103,8 @@ class Collection:
             return self.sort_data(input("Enter Sort Type: id/patient_name/patient_phone/vaccine/date/start_time/end_time"))
         
     def delete_by_id(self, ID, out_file = "out"):
-        if not Validator.is_integer(ID):
+
+        if not Validator.is_integer(ID) or int(ID) < 0:
             print("Enter valid number")
         else:
             for i in range(len(self.collection)):
@@ -103,9 +113,10 @@ class Collection:
                     file.write(f"[{datetime.datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}] Deleted element with ID{self.collection[i].ID} \n")
                     del self.collection[i]
                     return
+            print("Element not found")
 
     def edit_by_id(self, ID, type, value, out_file = "out"):
-        if not Validator.is_integer(ID):
+        if not Validator.is_integer(ID) or int(ID) < 0:
             print("Enter valid number")
         else:
             for i in range(len(self.collection)):
@@ -114,7 +125,19 @@ class Collection:
                     file.write(f"[{datetime.datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}] Edited element with ID{self.collection[i].ID} \n")
                     self.collection[i].edit(type, value)
                     return
+            print("Element not found")
                 
     def print_log(log):
         file = open(log, 'r')
         print(file.read())
+
+    def delete_by_index(self, pos, out_file = "out"):
+        if not Validator.is_integer(pos):
+            print("Enter valid number")
+        else:
+            del self.collection[int(pos)-1]
+
+    def delete_in_bounds(self, start_pos, end_pos, out_file = "out"):
+        Validator.validate_range(start_pos, end_pos)
+        for i in range(start_pos, end_pos + 1):
+            self.delete_by_index(start_pos, out_file)
