@@ -1,11 +1,14 @@
 from validation import Validator
 from A5.VaccineRequest import VaccineRequest
 from A5.Vaccine import Vaccine
+from A5.Observer import Observer, Event
+from A5.Logger import Logger
 import datetime
 
 class Collection:
     def __init__(self, collection = []):
         self.collection = collection
+        self.observer = Observer()
 
     def print(self):
         if self.collection == []:
@@ -17,8 +20,8 @@ class Collection:
     def clear(self, out_file = "out"):
         print("Clearing Complete")
         self.collection = []
-        file = open(out_file, 'a')
-        file.write(f"[{datetime.datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}] Cleared collection\n")
+        event = Event("clear", [f"[{datetime.datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}] Cleared collection\n", out_file])
+        event.trigger(self.observer)
 
     def add_element_console(self, out_file = "out"):
         temp = VaccineRequest.console_input()
@@ -27,8 +30,8 @@ class Collection:
                 print(f"ID{element.ID} already exists")
                 return
         self.collection.append(temp)
-        file = open(out_file, 'w')
-        file.write(f"[{datetime.datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}] Added element with ID{temp.ID}\n")
+        event = Event("add", f"[{datetime.datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}] Added element with ID{temp.ID}\n")
+        event.trigger(self.observer)
         
     def add_element(self, string, out_file = "out"):
         temp = string.split(" ")
@@ -59,8 +62,8 @@ class Collection:
             print("Not all fields are correct")
         else:
             self.collection.append(temp_request)
-            file = open(out_file, 'a')
-            file.write(f"[{datetime.datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}] Added element with ID{temp_request.ID}\n")
+            event = Event("add", [f"[{datetime.datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}] Added element with ID{temp_request.ID}\n", out_file])
+            event.trigger(self.observer)
 
     def read_from_file(self, file_name,  out_file = "out", position = None):
         if out_file is None:
@@ -111,9 +114,9 @@ class Collection:
         else:
             for i in range(len(self.collection)):
                 if self.collection[i].ID == int(ID):
-                    file = open(out_file, 'a')
-                    file.write(f"[{datetime.datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}] Deleted element with ID{self.collection[i].ID} \n")
                     del self.collection[i]
+                    event = Event("delete", [f"[{datetime.datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}] Deleted element with ID{self.collection[i].ID} \n", out_file])
+                    event.trigger(self.observer)
                     return
             print("Element not found")
 

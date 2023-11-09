@@ -19,7 +19,7 @@ while True:
         if Validator.is_integer(user_input):
             break
         else: print("Enter a number")
-    if user_input == "4":
+    if user_input == "5":
         do_some_magic5()
         print()
         input("Press enter to continue...")

@@ -2,6 +2,7 @@ from validation import Validator
 from A5.Collection import Collection
 from A5.Strategy import InsertElement, StrategyReadFromFile, StrategyReadFromConsole
 from os import system, name
+from A5.Logger import Logger
 
 def clear():
     # for windows
@@ -12,7 +13,7 @@ def clear():
     else:
         _ = system('clear')
 
-def do_some_magic4():
+def do_some_magic5():
     collection = Collection()
     clear()
     log = "out"
