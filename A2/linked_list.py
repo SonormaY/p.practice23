@@ -115,7 +115,9 @@ class LinkedList:
         current_node = self.head
         while current_node:
             print(current_node)
-            current_node = current_node.next   
+            current_node = current_node.next  
+    def clear(self):
+        self.head = None 
 
 
     def input(self):
